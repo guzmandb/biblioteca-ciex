@@ -1,0 +1,92 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f2f4f8;
+    color: #333;
+  }
+  
+  header {
+    background-color: #004080;
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin: 0 0 10px;
+    font-size: 2rem;
+  }
+  
+  #searchInput {
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 400px;
+    font-size: 1rem;
+  }
+  
+  #documentList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+  }
+  
+  .document-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  
+  .document-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .document-card h2 {
+    font-size: 1.2rem;
+    margin: 0 0 1rem;
+  }
+  
+  .document-card a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #0066cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+  
+  .document-card a:hover {
+    background-color: #0051a3;
+  }
+  
+  footer {
+    text-align: center;
+    background-color: #00264d;
+    color: white;
+    padding: 1rem;
+  }
+  
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 1.5rem;
+    }
+    #searchInput {
+      width: 95%;
+    }
+    .document-card {
+      width: 90%;
+    }
+  }
