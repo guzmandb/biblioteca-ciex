@@ -7,7 +7,7 @@ const documents = [
   },
   {
     title: "Panasef - Radiografía del Sector Funerario",
-    file: "docs/.pdf",
+    file: "docs/Panasef_Radiografia_Sector_2023.pdf",
     cover: "covers/portada_panasef.png",
     categories: ["Artículos Académicos", "Revista"]
   },
