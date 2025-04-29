@@ -1,29 +1,31 @@
+<!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Biblioteca CIEX</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <header>
-    <h1>📚 Biblioteca CIEX</h1>
+    <img src="img/ciex-logo.png" alt="CIEX Logo" id="logo">
+    <h1>Biblioteca CIEX</h1>
     <input type="text" id="searchInput" placeholder="Buscar documentos...">
   </header>
 
-  <section id="documentList">
-    <div class="document-card">
-      <h2>Norma de Ejemplo</h2>
-      <a href="docs/ejemplo1.pdf" target="_blank">📄 Ver Documento</a>
-    </div>
-    <div class="document-card">
-      <h2>Guía de Procesos</h2>
-      <a href="docs/ejemplo2.pdf" target="_blank">📄 Ver Documento</a>
-    </div>
-  </section>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Taxonomías</h2>
+      <ul id="taxonomyList">
+        <!-- Taxonomías dinámicas aquí -->
+      </ul>
+    </aside>
+
+    <main class="document-section" id="documentList">
+      <!-- Documentos dinámicos aquí -->
+    </main>
+  </div>
 
   <footer>
     <p>&copy; 2025 CIEX - Biblioteca</p>
