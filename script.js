@@ -6,16 +6,28 @@ const documents = [
     categories: ["Investigaciones CIEX", "Informes Técnicos"]
   },
   {
-    title: "Panasef - Radiografía del Sector Funerario",
+    title: "Radiografía del Sector Funerario en España - Panasef",
     file: "docs/Panasef_Radiografia_Sector_2023.pdf",
     cover: "covers/portada_panasef.png",
     categories: ["Artículos Académicos", "Revista"]
   },
   {
-    title: "Plan Estadístico Nacional 2023-2027",
+    title: "Plan Estadístico Nacional 2023-2027 - DANE",
     file: "docs/DANE_PNE_2023-2027.pdf",
     cover: "covers/portada_dane.png",
-    categories: ["Documentos de Referencia​", "Normatividad Sectorial"]
+    categories: ["Documentos de Referencia", "Normatividad Sectorial"]
+  },
+  {
+    title: "Boletín técnico Estadísticas Vitales (EEVV) - Defunciones no fetales - DANE",
+    file: "docs/CIEX_Boletin_EEVV_DANE_2024.pdf",
+    cover: "covers/portada_dane_boletin.png",
+    categories: ["Documentos de Referencia", "Informes Técnicos"]
+  },
+  {
+    title: "Costumbre y hábitos funerarios - Fenalco",
+    file: "docs/CIEX_Estudio_HabitosFunerarios_Fenalco_2021.pdf",
+    cover: "covers/portada_fenalco.png",
+    categories: ["Documentos de Referencia", "Informes Técnicos"]
   }
 ];
 function renderDocuments(filterCategory = "") {
