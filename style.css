@@ -1,109 +1,77 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-body {
-  font-family: 'Inter', sans-serif;
-  background: #f2f4f8;
-  color: #333;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #f2f4f8; color: #333; }
+
+/* Header */
 header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #004080;
-  padding: 1rem;
-  color: white;
+  display: flex; align-items: center; justify-content: space-between;
+  background: #004080; padding: 0.75rem 1rem; color: white; position: relative;
 }
-#logo {
-  width: 50px;
-  height: auto;
-}
-#searchInput {
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: none;
-  width: 40%;
-  max-width: 300px;
-}
-.container {
-  display: flex;
-  min-height: 80vh;
-}
+#menuToggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; }
+#logo { width: 40px; height: auto; margin-right: 0.5rem; }
+h1 { flex-grow: 1; text-align: center; font-size: 1.5rem; }
+#searchInput { padding: 0.5rem; border-radius: 5px; border: none; width: 30%; max-width: 300px; }
+
+/* Layout */
+.container { display: flex; min-height: calc(100vh - 120px); }
+
+/* Sidebar */
 .sidebar {
-  width: 250px;
-  background: #e9eef5;
-  padding: 1rem;
-  overflow-y: auto;
+  width: 220px; background: #e9eef5; padding: 0.5rem; overflow-y: auto;
+  transition: left 0.3s;
 }
-.sidebar h2 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+.sidebar h2 { font-size: 1.1rem; margin: 0.5rem 0; }
+.sidebar ul { list-style: none; }
+.sidebar ul ul {
+  /* ¡AHORA SIEMPRE VISIBLES! */
+  display: block; padding-left: 1rem;
 }
-.sidebar ul {
-  list-style: none;
+.sidebar li { margin: 4px 0; cursor: pointer; }
+.sidebar li.taxonomy-home,
+.sidebar li.taxonomy-parent { font-weight: 600; }
+.sidebar li.taxonomy-parent {
+  position: relative; padding-left: 1.2rem;
 }
-.sidebar li {
-  margin: 5px 0;
-  cursor: pointer;
+.sidebar li.taxonomy-parent::before {
+  content: '▶'; position: absolute; left: 0; transition: transform 0.2s;
 }
+.sidebar li.taxonomy-parent.expanded::before {
+  transform: rotate(90deg);
+}
+.sidebar li.taxonomy-child { font-style: italic; font-size: 0.95rem; margin-left: 1rem; }
+.sidebar li.selected { background: #d0e1f9; }
+
+/* Documents */
 .document-section {
-  flex-grow: 1;
-  padding: 2rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: center;
+  flex-grow: 1; padding: 1rem;
+  display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
 }
 .document-card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 1rem;
-  width: 260px;
-  text-align: center;
-  transition: transform 0.2s;
+  background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 0.75rem; width: 240px; text-align: center; transition: transform 0.2s;
 }
-.document-card:hover {
-  transform: translateY(-5px);
-}
-.document-cover {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-.tags {
-  margin: 0.5rem 0;
-}
+.document-card:hover { transform: translateY(-5px); }
+.document-cover { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 0.75rem; }
+.tags { margin: 0.5rem 0; }
 .tag {
-  background: #0066cc;
-  color: white;
-  padding: 0.2rem 0.5rem;
-  border-radius: 5px;
-  font-size: 0.8rem;
+  background: #0066cc; color: white; padding: 0.2rem 0.5rem; border-radius: 5px;
+  font-size: 0.8rem; margin: 0 0.3rem 0.3rem 0; display: inline-block; cursor: pointer;
 }
+.tag.selected { border: 2px solid #004080; }
+
+/* Footer */
 footer {
-  background: #00264d;
-  color: white;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
+  background: #00264d; color: white; text-align: center; padding: 0.75rem; font-size: 0.85rem;
 }
+
+/* Responsive: Móvil */
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
+  #menuToggle { display: block; }
+  #searchInput { width: 50%; }
+  .container { flex-direction: column; }
   .sidebar {
-    width: 100%;
-    order: 2;
+    position: absolute; top: 60px; left: -100%; height: calc(100vh - 60px);
+    width: 200px; z-index: 1000;
   }
-  .document-section {
-    padding: 1rem;
-  }
-  #searchInput {
-    width: 60%;
-  }
+  .sidebar.open { left: 0; }
+  .document-section { padding: 0.5rem; }
 }

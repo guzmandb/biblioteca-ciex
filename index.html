@@ -6,9 +6,9 @@
   <title>Biblioteca CIEX</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
   <header>
+    <button id="menuToggle">☰</button>
     <img src="img/ciex-logo.png" alt="CIEX Logo" id="logo">
     <h1>Biblioteca CIEX</h1>
     <input type="text" id="searchInput" placeholder="Buscar documentos...">
@@ -16,14 +16,15 @@
 
   <div class="container">
     <aside class="sidebar">
-      <h2>Taxonomías</h2>
+      <h2>Categorías</h2>
       <ul id="taxonomyList">
-        <!-- Taxonomías dinámicas aquí -->
+        <li id="homeButton" class="taxonomy-home selected">Inicio</li>
+        <!-- las categorías se inyectan aquí -->
       </ul>
     </aside>
 
     <main class="document-section" id="documentList">
-      <!-- Documentos dinámicos aquí -->
+      <!-- las tarjetas se inyectan aquí -->
     </main>
   </div>
 
