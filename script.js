@@ -1,146 +1,307 @@
-// Taxonomía jerárquica
+// 1. Taxonomía jerárquica
 const taxonomyData = {
-  "Artículos Académicos": ["Revista", "Artículos de Investigación", "Artículos de Opinión", "Artículos de Revisión"],
-  "Estadísticas": ["Estadísticas Vitales", "Estadísticas de Mortalidad", "Boletines Estadísticos"] ,
-  "Investigaciones CIEX": ["Informes Técnicos", "Encuestas y Datos Primarios", "Proyectos Especiales"],
-  "Documentos de Referencia": ["Normatividad Sectorial", "Estándares Internacionales", "Lineamientos Metodológicos"],
-  "Divulgación": ["Ponencias", "Presentaciones Públicas", "Videos y Webinars", "Podcast"],
-  "Alianzas y Convenios": ["Universidades", "Entidades Gubernamentales", "Asociaciones del sector"],
-  "Memorias Institucionales": ["Actas de Comité CIEX", "Historial de Reuniones", "Premios y Reconocimientos"]
+  "Artículos Académicos": ["Revista","Artículos de Investigación","Artículos de Opinión","Artículos de Revisión"],
+  "Estadísticas": ["Estadísticas Vitales","Estadísticas de Mortalidad","Boletines Estadísticos"],
+  "Investigaciones CIEX": ["Informes Técnicos","Encuestas y Datos Primarios","Proyectos Especiales"],
+  "Documentos de Referencia": ["Normatividad Sectorial","Estándares Internacionales","Lineamientos Metodológicos"],
+  "Divulgación": ["Ponencias","Presentaciones Públicas","Videos y Webinars","Podcast"],
+  "Alianzas y Convenios": ["Universidades","Entidades Gubernamentales","Asociaciones del sector"],
+  "Memorias Institucionales": ["Actas de Comité CIEX","Historial de Reuniones","Premios y Reconocimientos"]
 };
 
-
-// Lista de documentos
+// 2. Documentos de ejemplo (con metadatos)
 const documents = [
   {
     title: "CIEX - 1er Ed. Caract del Ecosistema Funerario en Colombia",
     file: "docs/CIEX_Primera_Edicion.pdf",
     cover: "covers/portada_ciex_primera_edicion.jpg",
-    categories: ["Informes Técnicos"]
+    categories: ["Informes Técnicos"],
+    type: "Documento",
+    topic: "Salud",
+    year: "2021",
+    author: "CIEX"
   },
   {
     title: "Radiografía del Sector Funerario en España - Panasef",
     file: "docs/Panasef_Radiografia_Sector_2023.pdf",
     cover: "covers/portada_panasef.png",
-    categories: ["Revista"]
+    categories: ["Revista"],
+    type: "Documento",
+    topic: "Economía",
+    year: "2023",
+    author: "Panasef"
   },
   {
     title: "Plan Estadístico Nacional 2023-2027 - DANE",
     file: "docs/DANE_PNE_2023-2027.pdf",
     cover: "covers/portada_dane.png",
-    categories: ["Normatividad Sectorial"]
+    categories: ["Normatividad Sectorial"],
+    type: "Documento",
+    topic: "Economía",
+    year: "2023",
+    author: "DANE"
   },
   {
-    title: "Boletín técnico Estadísticas Vitales (EEVV) - Defunciones no fetales - DANE",
+    title: "Boletín técnico Estadísticas Vitales (EEVV) - DANE",
     file: "docs/CIEX_Boletin_EEVV_DANE_2024.pdf",
     cover: "covers/portada_dane_boletin.png",
-    categories: ["Informes Técnicos", "Boletines Estadísticos"]
+    categories: ["Informes Técnicos","Boletines Estadísticos"],
+    type: "Documento",
+    topic: "Mortalidad",
+    year: "2024",
+    author: "DANE"
   },
   {
     title: "Costumbre y hábitos funerarios - Fenalco",
     file: "docs/CIEX_Estudio_HabitosFunerarios_Fenalco_2021.pdf",
     cover: "covers/portada_fenalco.png",
-    categories: ["Informes Técnicos"]
+    categories: ["Informes Técnicos"],
+    type: "Documento",
+    topic: "Salud",
+    year: "2021",
+    author: "Fenalco"
   }
 ];
-function clearSelection() {
+
+// Estado de filtros
+let currentTaxonomy = "";
+let selectedTypes = new Set();
+let selectedTopics = new Set();
+let selectedYear = "Todos";
+let selectedAuthor = "Todos";
+
+// Limpia selección visual
+function clearSelectionVisual() {
   document.querySelectorAll('#taxonomyList li, .tag').forEach(el => el.classList.remove('selected'));
 }
 
-// Muestra documentos según filtro
-function renderDocuments(filter = "") {
-  clearSelection();
+// Aplica todos los filtros y taxonomía
+function renderDocuments() {
+  clearSelectionVisual();
+  document.querySelector(`#taxonomyList li[data-name="${currentTaxonomy}"]`)?.classList.add('selected');
   const list = document.getElementById('documentList');
   list.innerHTML = "";
-  const isParent = taxonomyData.hasOwnProperty(filter);
-  const filtered = documents.filter(doc => {
-    if (!filter) return true;
-    if (isParent) {
-      const subs = taxonomyData[filter];
-      return doc.categories.includes(filter) || doc.categories.some(c => subs.includes(c));
-    }
-    return doc.categories.includes(filter);
-  });
-  filtered.forEach(doc => {
-    const card = document.createElement('div');
-    card.className = 'document-card';
-    card.innerHTML = `
-      <img src="${doc.cover}" class="document-cover" alt="${doc.title}">
-      <h2>${doc.title}</h2>
-      <div class="tags">
-        ${doc.categories.map(cat => `<span class="tag" data-cat="${cat}">${cat}</span>`).join('')}
-      </div>
-      <a href="${doc.file}" target="_blank">📄 Ver Documento</a>
-    `;
-    // Tags clickeables
-    card.querySelectorAll('.tag').forEach(span => {
-      span.addEventListener('click', e => {
-        e.stopPropagation();
-        clearSelection();
-        span.classList.add('selected');
-        renderDocuments(span.dataset.cat);
-        // resaltar li correspondiente
-        const li = document.querySelector(`#taxonomyList li[data-name="${span.dataset.cat}"]`);
-        if (li) li.classList.add('selected');
+  documents
+    .filter(doc => {
+      // Filtrado taxonomía
+      if (currentTaxonomy) {
+        const isParent = taxonomyData[currentTaxonomy];
+        if (isParent) {
+          if (doc.categories.includes(currentTaxonomy) === false &&
+              !doc.categories.some(c=> isParent.includes(c))) return false;
+        } else if (!doc.categories.includes(currentTaxonomy)) {
+          return false;
+        }
+      }
+      // Tipo
+      if (selectedTypes.size && !selectedTypes.has(doc.type)) return false;
+      // Tema
+      if (selectedTopics.size && !selectedTopics.has(doc.topic)) return false;
+      // Año
+      if (selectedYear !== "Todos" && doc.year !== selectedYear) return false;
+      // Autor
+      if (selectedAuthor !== "Todos" && doc.author !== selectedAuthor) return false;
+      return true;
+    })
+    .forEach(doc => {
+      const card = document.createElement('div');
+      card.className = 'document-card';
+      card.innerHTML = `
+        <img src="${doc.cover}" class="document-cover" alt="${doc.title}">
+        <h2>${doc.title}</h2>
+        <div class="tags">
+          ${doc.categories.map(cat=>`<span class="tag" data-cat="${cat}">${cat}</span>`).join('')}
+        </div>
+        <a href="${doc.file}" target="_blank">📄 Ver Documento</a>
+      `;
+      // Click en tags (taxonomía)
+      card.querySelectorAll('.tag').forEach(span=>{
+        span.addEventListener('click', e=>{
+          e.stopPropagation();
+          currentTaxonomy = span.dataset.cat;
+          renderDocuments();
+        });
       });
+      list.appendChild(card);
     });
-    list.appendChild(card);
+}
+
+// Construye filtro de tipos, temas, años y autores
+function initFilters() {
+  const types = [...new Set(documents.map(d=>d.type))];
+  const topics = [...new Set(documents.map(d=>d.topic))];
+  const years = [...new Set(documents.map(d=>d.year))].sort();
+  const authors = [...new Set(documents.map(d=>d.author))];
+
+  const tf = document.getElementById('typeFilters');
+  types.forEach(t=>{
+    const lbl = document.createElement('label');
+    lbl.innerHTML = `<input type="checkbox" value="${t}"> ${t}`;
+    lbl.querySelector('input').addEventListener('change', e=>{
+      if(e.target.checked) selectedTypes.add(t);
+      else selectedTypes.delete(t);
+      renderDocuments();
+    });
+    tf.appendChild(lbl);
+  });
+
+  const topf = document.getElementById('topicFilters');
+  topics.forEach(t=>{
+    const lbl = document.createElement('label');
+    lbl.innerHTML = `<input type="checkbox" value="${t}"> ${t}`;
+    lbl.querySelector('input').addEventListener('change', e=>{
+      if(e.target.checked) selectedTopics.add(t);
+      else selectedTopics.delete(t);
+      renderDocuments();
+    });
+    topf.appendChild(lbl);
+  });
+
+  const ys = document.getElementById('yearSelect');
+  years.forEach(y=>{
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y;
+    ys.appendChild(opt);
+  });
+  ys.addEventListener('change', e=>{
+    selectedYear = e.target.value; renderDocuments();
+  });
+
+  const au = document.getElementById('authorSelect');
+  authors.forEach(a=>{
+    const opt = document.createElement('option');
+    opt.value = a; opt.textContent = a;
+    au.appendChild(opt);
+  });
+  au.addEventListener('change', e=>{
+    selectedAuthor = e.target.value; renderDocuments();
   });
 }
 
 // Construye la barra lateral (acordeón)
 function renderTaxonomies() {
   const nav = document.getElementById('taxonomyList');
-  // ya tenemos "Inicio"
+  // "Todas" con badge global
+  nav.innerHTML = `
+    <li id="homeButton" class="taxonomy-home selected">
+      Todas <span class="badge">${documents.length}</span>
+    </li>
+  `;
+
   Object.entries(taxonomyData).forEach(([parent, subs]) => {
+    // cuenta docs para padre (directos o en sus hijos)
+    const countParent = documents.filter(doc => 
+      doc.categories.includes(parent) ||
+      subs.some(sub => doc.categories.includes(sub))
+    ).length;
+    if (countParent === 0) return; // omitir padres vacíos
+
     const li = document.createElement('li');
     li.className = 'taxonomy-parent expanded';
     li.setAttribute('data-name', parent);
-    li.textContent = parent;
-    // click en padre
-    li.addEventListener('click', e => {
+
+    // toggle arrow solo si hay hijos con docs
+    const validSubs = subs.filter(sub =>
+      documents.some(doc => doc.categories.includes(sub))
+    );
+    if (validSubs.length) {
+      const toggle = document.createElement('button');
+      toggle.className = 'toggle-arrow';
+      toggle.textContent = '▶';
+      toggle.addEventListener('click', e => {
+        e.stopPropagation();
+        li.classList.toggle('expanded');
+        const childUl = li.querySelector('ul');
+        if (childUl) {
+          childUl.style.display = li.classList.contains('expanded') ? 'block' : 'none';
+        }
+      });
+      li.appendChild(toggle);
+    }
+
+    // label padre
+    const label = document.createElement('span');
+    label.textContent = parent;
+    label.addEventListener('click', e => {
       e.stopPropagation();
-      clearSelection();
-      li.classList.add('selected');
-      renderDocuments(parent);
-      // alterna colapso
-      const childUl = li.querySelector('ul');
-      const isExp = li.classList.toggle('expanded');
-      childUl.style.display = isExp ? 'block' : 'none';
+      currentTaxonomy = parent;
+      renderDocuments();
     });
-    // sublist
-    if (subs.length) {
-      const ul2 = document.createElement('ul');
-      subs.forEach(sub => {
+    li.appendChild(label);
+
+    // badge padre
+    const badge = document.createElement('span');
+    badge.className = 'badge';
+    badge.textContent = countParent;
+    li.appendChild(badge);
+
+    // hijos con badge
+    if (validSubs.length) {
+      const childUl = document.createElement('ul');
+      validSubs.forEach(sub => {
+        const subCount = documents.filter(doc => doc.categories.includes(sub)).length;
+        if (subCount === 0) return;
+
         const subLi = document.createElement('li');
         subLi.className = 'taxonomy-child';
         subLi.setAttribute('data-name', sub);
-        subLi.textContent = sub;
-        // click en hijo
-        subLi.addEventListener('click', e => {
+
+        const subLabel = document.createElement('span');
+        subLabel.textContent = sub;
+        subLabel.addEventListener('click', e => {
           e.stopPropagation();
-          clearSelection();
-          subLi.classList.add('selected');
-          renderDocuments(sub);
+          currentTaxonomy = sub;
+          renderDocuments();
         });
-        ul2.appendChild(subLi);
+        subLi.appendChild(subLabel);
+
+        const subBadge = document.createElement('span');
+        subBadge.className = 'badge';
+        subBadge.textContent = subCount;
+        subLi.appendChild(subBadge);
+
+        childUl.appendChild(subLi);
       });
-      li.appendChild(ul2);
+      li.appendChild(childUl);
     }
+
     nav.appendChild(li);
   });
 }
 
-// Toggle sidebar en móvil
-document.getElementById('menuToggle').addEventListener('click', () => {
+
+
+function clearAllFilters() {
+  currentTaxonomy = "";
+  selectedTypes.clear();
+  selectedTopics.clear();
+  selectedYear = "Todos";
+  selectedAuthor = "Todos";
+  // UI:
+  document.getElementById("yearSelect").value = "Todos";
+  document.getElementById("authorSelect").value = "Todos";
+  document.querySelectorAll("#typeFilters input, #topicFilters input")
+  .forEach(cb => cb.checked = false);
+  clearSelectionVisual();
+  document.getElementById("homeButton").classList.add("selected");
+}
+
+// Hook para hamburger mobile
+document.getElementById('menuToggle')
+.addEventListener('click', ()=> {
   document.querySelector('.sidebar').classList.toggle('open');
 });
 
-// Inicio
-document.getElementById('homeButton').addEventListener('click', () => {
-  clearSelection();
-  document.getElementById('homeButton').classList.add('selected');
+// Hook para el nuevo botón
+document.getElementById('clearFiltersBtn')
+.addEventListener('click', ()=> {
+  clearAllFilters();
   renderDocuments();
 });
+
+
+
+// inicialización
+initFilters();
 renderTaxonomies();
 renderDocuments();

@@ -2,29 +2,55 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Biblioteca CIEX</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <button id="menuToggle">☰</button>
-    <img src="img/ciex-logo.png" alt="CIEX Logo" id="logo">
-    <h1>Biblioteca CIEX</h1>
+    <a href="#" onclick="window.location.reload()"><img src="img/ciex-logo.png" alt="CIEX Logo" id="logo"></a>
+    <h1><a href="#" onclick="window.location.reload()" style="color: white;">Biblioteca CIEX</a></h1>
     <input type="text" id="searchInput" placeholder="Buscar documentos...">
   </header>
 
   <div class="container">
     <aside class="sidebar">
-      <h2>Categorías</h2>
-      <ul id="taxonomyList">
-        <li id="homeButton" class="taxonomy-home selected">Inicio</li>
-        <!-- las categorías se inyectan aquí -->
+      <!-- PANEL DE FILTROS -->
+
+      <!-- Filtros -->
+      <div class="filter-section">
+        <button id="clearFiltersBtn">🧹 Borrar filtros</button>
+        <h2>Filtros</h2>
+        <div class="filter-group">
+          <h3>Tipo de Archivo</h3>
+          <div id="typeFilters"></div>
+        </div>
+        <div class="filter-group">
+          <h3>Temas</h3>
+          <div id="topicFilters"></div>
+        </div>
+        <div class="filter-group">
+          <h3>Año</h3>
+          <select id="yearSelect"><option value="Todos">Todos</option></select>
+        </div>
+        <div class="filter-group">
+          <h3>Autor</h3>
+          <select id="authorSelect"><option value="Todos">Todos</option></select>
+        </div>
+
+        <div class="filter-group">
+          <h2>Categorías</h2>
+          <ul id="taxonomyList">
+          <li id="homeButton" class="taxonomy-home selected">Todas</li>
       </ul>
+        </div>
+      </div>
+
     </aside>
 
     <main class="document-section" id="documentList">
-      <!-- las tarjetas se inyectan aquí -->
+      <!-- tarjetas inyectadas aquí -->
     </main>
   </div>
 
