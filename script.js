@@ -17,7 +17,7 @@ const documents = [
     cover: "covers/portada_ciex_primera_edicion.jpg",
     categories: ["Informes Técnicos"],
     type: "Documento",
-    topic: "Salud",
+    topic: "Sectorial",
     year: "2021",
     author: "CIEX"
   },
@@ -27,7 +27,7 @@ const documents = [
     cover: "covers/portada_panasef.png",
     categories: ["Revista"],
     type: "Documento",
-    topic: "Economía",
+    topic: "Sectorial",
     year: "2023",
     author: "Panasef"
   },
@@ -37,7 +37,7 @@ const documents = [
     cover: "covers/portada_dane.png",
     categories: ["Normatividad Sectorial"],
     type: "Documento",
-    topic: "Economía",
+    topic: "Estadísticas",
     year: "2023",
     author: "DANE"
   },
@@ -45,7 +45,7 @@ const documents = [
     title: "Boletín técnico Estadísticas Vitales (EEVV) - DANE",
     file: "docs/CIEX_Boletin_EEVV_DANE_2024.pdf",
     cover: "covers/portada_dane_boletin.png",
-    categories: ["Informes Técnicos","Boletines Estadísticos"],
+    categories: ["Boletines Estadísticos"],
     type: "Documento",
     topic: "Mortalidad",
     year: "2024",
@@ -55,9 +55,9 @@ const documents = [
     title: "Costumbre y hábitos funerarios - Fenalco",
     file: "docs/CIEX_Estudio_HabitosFunerarios_Fenalco_2021.pdf",
     cover: "covers/portada_fenalco.png",
-    categories: ["Informes Técnicos"],
+    categories: ["Artículos de Investigación"],
     type: "Documento",
-    topic: "Salud",
+    topic: "Ritos",
     year: "2021",
     author: "Fenalco"
   }
@@ -70,6 +70,9 @@ let selectedTopics = new Set();
 let selectedYear = "Todos";
 let selectedAuthor = "Todos";
 
+// estado de búsqueda
+let searchTerm = '';
+
 // Limpia selección visual
 function clearSelectionVisual() {
   document.querySelectorAll('#taxonomyList li, .tag').forEach(el => el.classList.remove('selected'));
@@ -78,11 +81,16 @@ function clearSelectionVisual() {
 // Aplica todos los filtros y taxonomía
 function renderDocuments() {
   clearSelectionVisual();
-  document.querySelector(`#taxonomyList li[data-name="${currentTaxonomy}"]`)?.classList.add('selected');
+  // document.querySelector(`#taxonomyList li[data-name="${currentTaxonomy}"]`)?.classList.add('selected');
   const list = document.getElementById('documentList');
   list.innerHTML = "";
-  documents
+  const filtered = documents
     .filter(doc => {
+      // búsqueda por título con normalización
+      if (searchTerm) {
+        const titleNorm = normalizeText(doc.title);
+        if (!titleNorm.includes(searchTerm)) return false;
+      }
       // Filtrado taxonomía
       if (currentTaxonomy) {
         const isParent = taxonomyData[currentTaxonomy];
@@ -102,28 +110,72 @@ function renderDocuments() {
       // Autor
       if (selectedAuthor !== "Todos" && doc.author !== selectedAuthor) return false;
       return true;
-    })
-    .forEach(doc => {
-      const card = document.createElement('div');
-      card.className = 'document-card';
-      card.innerHTML = `
-        <img src="${doc.cover}" class="document-cover" alt="${doc.title}">
-        <h2>${doc.title}</h2>
-        <div class="tags">
-          ${doc.categories.map(cat=>`<span class="tag" data-cat="${cat}">${cat}</span>`).join('')}
-        </div>
-        <a href="${doc.file}" target="_blank">📄 Ver Documento</a>
-      `;
-      // Click en tags (taxonomía)
-      card.querySelectorAll('.tag').forEach(span=>{
-        span.addEventListener('click', e=>{
-          e.stopPropagation();
-          currentTaxonomy = span.dataset.cat;
-          renderDocuments();
-        });
-      });
-      list.appendChild(card);
     });
+
+  // 1) Actualiza la UI de los filtros según 'filtered'
+  updateFilterUI(filtered);
+
+  // 2) Renderiza las taxonomías y tarjetas como ya lo haces
+  renderTaxonomies(filtered);
+  list.innerHTML = '';
+  filtered.forEach(doc => {
+    const card = document.createElement('div');
+    card.className = 'document-card';
+    card.innerHTML = `
+      <img src="${doc.cover}" class="document-cover" alt="${doc.title}">
+      <h2>${doc.title}</h2>
+      <div class="tags">
+        ${doc.categories.map(cat=>`<span class="tag" data-cat="${cat}">${cat}</span>`).join('')}
+      </div>
+      <a href="${doc.file}" target="_blank">📄 Ver Documento</a>
+    `;
+    // Click en tags (taxonomía)
+    card.querySelectorAll('.tag').forEach(span=>{
+      span.addEventListener('click', e=>{
+        e.stopPropagation();
+        currentTaxonomy = span.dataset.cat;
+        renderDocuments();
+      });
+    });
+    list.appendChild(card);
+  });
+}
+
+// Nueva función
+function updateFilterUI(docs) {
+  // Tipo
+  document.querySelectorAll('#typeFilters label').forEach(lbl => {
+    const val = lbl.querySelector('input').value;
+    lbl.style.display = docs.some(d => d.type === val) ? '' : 'none';
+  });
+
+  // Tema
+  document.querySelectorAll('#topicFilters label').forEach(lbl => {
+    const val = lbl.querySelector('input').value;
+    lbl.style.display = docs.some(d => d.topic === val) ? '' : 'none';
+  });
+
+  // Año
+  const ys = document.getElementById('yearSelect');
+  Array.from(ys.options).forEach(opt => {
+    if (opt.value === 'Todos') return;
+    opt.style.display = docs.some(d => d.year === opt.value) ? '' : 'none';
+  });
+  if (!docs.some(d => d.year === ys.value)) {
+    ys.value = 'Todos';
+    selectedYear = 'Todos';
+  }
+
+  // Autor
+  const au = document.getElementById('authorSelect');
+  Array.from(au.options).forEach(opt => {
+    if (opt.value === 'Todos') return;
+    opt.style.display = docs.some(d => d.author === opt.value) ? '' : 'none';
+  });
+  if (!docs.some(d => d.author === au.value)) {
+    au.value = 'Todos';
+    selectedAuthor = 'Todos';
+  }
 }
 
 // Construye filtro de tipos, temas, años y autores
@@ -179,18 +231,18 @@ function initFilters() {
 }
 
 // Construye la barra lateral (acordeón)
-function renderTaxonomies() {
+function renderTaxonomies(filteredDocs = documents) {
   const nav = document.getElementById('taxonomyList');
   // "Todas" con badge global
   nav.innerHTML = `
     <li id="homeButton" class="taxonomy-home selected">
-      Todas <span class="badge">${documents.length}</span>
+      Todas <span class="badge">${filteredDocs.length}</span>
     </li>
   `;
 
   Object.entries(taxonomyData).forEach(([parent, subs]) => {
     // cuenta docs para padre (directos o en sus hijos)
-    const countParent = documents.filter(doc => 
+    const countParent = filteredDocs.filter(doc => 
       doc.categories.includes(parent) ||
       subs.some(sub => doc.categories.includes(sub))
     ).length;
@@ -202,7 +254,7 @@ function renderTaxonomies() {
 
     // toggle arrow solo si hay hijos con docs
     const validSubs = subs.filter(sub =>
-      documents.some(doc => doc.categories.includes(sub))
+      filteredDocs.some(doc => doc.categories.includes(sub))
     );
     if (validSubs.length) {
       const toggle = document.createElement('button');
@@ -239,7 +291,7 @@ function renderTaxonomies() {
     if (validSubs.length) {
       const childUl = document.createElement('ul');
       validSubs.forEach(sub => {
-        const subCount = documents.filter(doc => doc.categories.includes(sub)).length;
+        const subCount = filteredDocs.filter(doc => doc.categories.includes(sub)).length;
         if (subCount === 0) return;
 
         const subLi = document.createElement('li');
@@ -270,7 +322,7 @@ function renderTaxonomies() {
 }
 
 
-
+//Limpio de filtros
 function clearAllFilters() {
   currentTaxonomy = "";
   selectedTypes.clear();
@@ -299,7 +351,19 @@ document.getElementById('clearFiltersBtn')
   renderDocuments();
 });
 
+// helper para quitar tildes y pasar a minúsculas
+function normalizeText(str) {
+  return str
+    .normalize('NFD')             // separa diacríticos
+    .replace(/[\u0300-\u036f]/g, '') // quita tildes
+    .toLowerCase();
+}
 
+// listener del buscador
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = normalizeText(e.target.value.trim());
+  renderDocuments();
+});
 
 // inicialización
 initFilters();
