@@ -7,7 +7,11 @@ header {
   background: #004080; padding: 0.75rem 1rem; color: white; position: relative;
 }
 #menuToggle { display: none; background: none; border: none; color: white; font-size:1.5rem; }
-#logo { width: 40px; height: auto; margin-right:0.5rem; }
+#logo {
+  width: 80px;         /* aumenta el ancho del logo */
+  margin-left: 0.75rem;/* separa del botón de hamburguesa */
+  height: auto;
+}
 h1 { flex-grow:1; text-align:center; font-size:1.5rem; }
 #searchInput { padding:0.5rem; border:none; border-radius:5px; width:30%; max-width:300px; }
 
@@ -292,15 +296,15 @@ footer {
 
 /* Banner más grande */
 #topBanner {
-  flex: 0 0 100%;
+  flex: 0 0 105%;
   display: flex;
   justify-content: center;
   margin-bottom: 1.5rem;
 }
 #topBanner img {
-  width: 100%;
+  width: 105%;
   max-width: none;
-  max-height: 300px;   /* altura mayor */
+  max-height: 400px;   /* altura mayor */
   object-fit: cover;
   border-radius: 8px;
 }
