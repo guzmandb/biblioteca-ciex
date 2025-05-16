@@ -12,10 +12,16 @@ h1 { flex-grow:1; text-align:center; font-size:1.5rem; }
 #searchInput { padding:0.5rem; border:none; border-radius:5px; width:30%; max-width:300px; }
 
 /* LAYOUT */
+.container {
+  display: flex;
+  gap: 1rem;
+}
 .container { display:flex; min-height:calc(100vh - 120px); }
 
 /* SIDEBAR */
 .sidebar {
+  flex: 0 0 30%;      /* ocupa un 30% del ancho */
+  max-width: 320px;   /* tope si quieres */
   width:240px; background:#e9eef5; padding:0.75rem; overflow-y:auto;
   transition:left .3s;
 }
@@ -80,8 +86,12 @@ h1 { flex-grow:1; text-align:center; font-size:1.5rem; }
 
 /* DOCUMENTOS */
 .document-section {
-  flex-grow:1; padding:1rem;
-  display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;
+  flex: 1;            /* ocupa el espacio restante */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem 0;
 }
 .document-card {
   background:white; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1);
@@ -147,6 +157,13 @@ footer {
   }
   .sidebar.open { left:0; }
   .document-section { padding:.5rem; }
+  .sidebar {
+    flex: 0 0 100%;
+    max-width: none;
+  }
+  #topBanner img {
+    max-height: 180px;
+  }
 }
 .document-card .actions {
   margin-top: .5rem;
@@ -173,4 +190,128 @@ footer {
 }
 .document-card .actions .dashboard-link:hover {
   background: #133185; 
-}*//* Listas de Temas y Años */
+}*/
+/* Listas de Temas y Años */
+
+/* Banner full-width, mantiene proporción y no desplaza el grid */
+.top-banner {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.top-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 250px;    /* ajusta según necesites */
+  object-fit: cover;
+}
+
+/* En pantallas pequeñas ajusta la altura */
+@media(max-width: 768px) {
+  .top-banner img {
+    max-height: 120px;
+  }
+}
+
+/* Opcional: añadir separación extra antes del grid */
+.document-section {
+  padding-top: 0.5rem;
+}
+
+/* Banner responsive que ocupa toda la fila en .document-section */
+#topBanner {
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+#topBanner img {
+  display: block;
+  width: 100%;
+  max-width: 800px;    /* ajusta según tu diseño */
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* En móviles/tablets */
+@media(max-width: 768px) {
+  #topBanner img {
+    max-width: 100%;
+    border-radius: 4px;
+  }
+}
+
+/* contenedor de banner + tarjetas */
+.document-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+/* banner ocupa toda la fila */
+#topBanner {
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+#topBanner img {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+/* grid de tarjetas debajo */
+#documentList {
+  flex: 0 0 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Layout: sidebar al 30% y .document-section al resto */
+.container {
+  display: flex;
+  gap: 1rem;
+}
+.sidebar {
+  flex: 0 0 40%;      /* ocupa un 30% del ancho */
+  max-width: 320px;   /* tope si quieres */
+}
+.document-section {
+  flex: 1;            /* ocupa el espacio restante */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+/* Banner más grande */
+#topBanner {
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+#topBanner img {
+  width: 100%;
+  max-width: none;
+  max-height: 300px;   /* altura mayor */
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Responsivo */
+@media(max-width:768px) {
+  .sidebar {
+    flex: 0 0 100%;
+    max-width: none;
+  }
+  #topBanner img {
+    max-height: 180px;
+  }
+}

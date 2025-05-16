@@ -101,43 +101,39 @@ function clearSelectionVisual() {
 // Aplica todos los filtros y taxonomía
 function renderDocuments() {
   clearSelectionVisual();
-  // document.querySelector(`#taxonomyList li[data-name="${currentTaxonomy}"]`)?.classList.add('selected');
   const list = document.getElementById('documentList');
-  list.innerHTML = "";
-  const filtered = documents
-    .filter(doc => {
-      // búsqueda por título con normalización
-      if (searchTerm) {
-        const titleNorm = normalizeText(doc.title);
-        if (!titleNorm.includes(searchTerm)) return false;
-      }
-      // Filtrado taxonomía
-      if (currentTaxonomy) {
-        const isParent = taxonomyData[currentTaxonomy];
-        if (isParent) {
-          if (doc.categories.includes(currentTaxonomy) === false &&
-              !doc.categories.some(c=> isParent.includes(c))) return false;
-        } else if (!doc.categories.includes(currentTaxonomy)) {
-          return false;
-        }
-      }
-      // Tipo
-      if (selectedTypes.size && !selectedTypes.has(doc.type)) return false;
-      // Tema
-      if (selectedTopics.size && !selectedTopics.has(doc.topic)) return false;
-      // Año
-      if (selectedYear !== "Todos" && doc.year !== selectedYear) return false;
-      // Autor
-      if (selectedAuthor !== "Todos" && doc.author !== selectedAuthor) return false;
-      return true;
-    });
+  list.innerHTML = "";    // limpia SOLO las cards
 
-  // 1) Actualiza la UI de los filtros según 'filtered'
+  const filtered = documents.filter(doc => {
+    // búsqueda por título con normalización
+    if (searchTerm) {
+      const titleNorm = normalizeText(doc.title);
+      if (!titleNorm.includes(searchTerm)) return false;
+    }
+    // Filtrado taxonomía
+    if (currentTaxonomy) {
+      const isParent = taxonomyData[currentTaxonomy];
+      if (isParent) {
+        if (doc.categories.includes(currentTaxonomy) === false &&
+            !doc.categories.some(c=> isParent.includes(c))) return false;
+      } else if (!doc.categories.includes(currentTaxonomy)) {
+        return false;
+      }
+    }
+    // Tipo
+    if (selectedTypes.size && !selectedTypes.has(doc.type)) return false;
+    // Tema
+    if (selectedTopics.size && !selectedTopics.has(doc.topic)) return false;
+    // Año
+    if (selectedYear !== "Todos" && doc.year !== selectedYear) return false;
+    // Autor
+    if (selectedAuthor !== "Todos" && doc.author !== selectedAuthor) return false;
+    return true;
+  });
+
   updateFilterUI(filtered);
-
-  // 2) Renderiza las taxonomías y tarjetas como ya lo haces
   renderTaxonomies(filtered);
-  list.innerHTML = '';
+
   filtered.forEach(doc => {
     const card = document.createElement('div');
     card.className = 'document-card';
@@ -171,7 +167,7 @@ function renderDocuments() {
       });
     });
 
-    document.getElementById('documentList').appendChild(card);
+    list.appendChild(card);
   });
 }
 
@@ -383,6 +379,17 @@ document.getElementById('clearFiltersBtn')
 .addEventListener('click', ()=> {
   clearAllFilters();
   renderDocuments();
+});
+
+document.addEventListener('click', e => {
+  const sidebar = document.querySelector('.sidebar');
+  const toggle  = document.getElementById('menuToggle');
+  // Si el sidebar está abierto y el click NO fue dentro de él ni en el botón
+  if (sidebar.classList.contains('open') &&
+      !sidebar.contains(e.target) &&
+      !toggle.contains(e.target)) {
+    sidebar.classList.remove('open');
+  }
 });
 
 // helper para quitar tildes y pasar a minúsculas

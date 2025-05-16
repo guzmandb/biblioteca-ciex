@@ -9,7 +9,7 @@
 <body>
   <header>
     <button id="menuToggle">☰</button>
-    <a href="#" onclick="window.location.reload()"><img src="img/ciex-logo.png" alt="CIEX Logo" id="logo"></a>
+    <a href="#" onclick="window.location.reload()"><img src="img/ciex-logo.png" alt="Centro de Investigación Estadístico Exequial - CIEX Logo" id="logo"></a>
     <h1><a href="#" onclick="window.location.reload()" style="color: white;">Biblioteca CIEX</a></h1>
     <input type="text" id="searchInput" placeholder="Buscar documentos...">
   </header>
@@ -49,8 +49,16 @@
 
     </aside>
 
-    <main class="document-section" id="documentList">
-      <!-- tarjetas inyectadas aquí -->
+    <main class="document-section">
+      <!-- 1) Banner fijo -->
+      <div id="topBanner">
+        <a href="https://forms.gle/aKF8cXsa1bw8TrqUA" target="_blank" rel="noopener">
+          <img src="img/banner-ciex.png"
+               alt="CIEX - Participa en nuestra Biblioteca llenando el formulario">
+        </a>
+      </div>
+      <!-- 2) Aquí solo se renderizan las tarjetas -->
+      <div id="documentList"></div>
     </main>
   </div>
 
