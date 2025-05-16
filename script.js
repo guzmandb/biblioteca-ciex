@@ -2,7 +2,7 @@
 const taxonomyData = {
   "Artículos Académicos": ["Revista","Artículos de Investigación","Artículos de Opinión","Artículos de Revisión"],
   "Estadísticas": ["Estadísticas Vitales","Estadísticas de Mortalidad","Boletines Estadísticos"],
-  "Investigaciones CIEX": ["Informes Técnicos","Encuestas y Datos Primarios","Proyectos Especiales"],
+  "Investigaciones CIEX": ["Informes Técnicos","Investigación y Datos Primarios","Proyectos Especiales"],
   "Documentos de Referencia": ["Normatividad Sectorial","Estándares Internacionales","Lineamientos Metodológicos"],
   "Divulgación": ["Ponencias","Presentaciones Públicas","Videos y Webinars","Podcast"],
   "Alianzas y Convenios": ["Universidades","Entidades Gubernamentales","Asociaciones del sector"],
@@ -12,6 +12,16 @@ const taxonomyData = {
 // 2. Documentos de ejemplo (con metadatos)
 const documents = [
   {
+    title: "Dashboard CIEX",
+    cover: "covers/portada_ciex_dashboard.png",
+    link: "https://app.powerbi.com/view?r=eyJrIjoiNjcyOWIyODYtNGRlZi00ZTU2LWE3MGUtNjNmNTNjNDZhMDZmIiwidCI6IjYwNjZiMGQ0LTRmYzgtNDMzNS05NjdiLWJmZDFmNzQ2Y2I0MSIsImMiOjR9",
+    categories: ["Investigación y Datos Primarios"],
+    type: "Dashboard",
+    topic: "Mortalidad",
+    year: "2024",
+    author: "CIEX"
+  },
+  {
     title: "CIEX - 1er Ed. Caract del Ecosistema Funerario en Colombia",
     file: "docs/CIEX_Primera_Edicion.pdf",
     cover: "covers/portada_ciex_primera_edicion.jpg",
@@ -20,6 +30,16 @@ const documents = [
     topic: "Sectorial",
     year: "2021",
     author: "CIEX"
+  },
+  {
+    title: "Boletín Estadísticas Vitales - DANE 2024",
+    file: "docs/CIEX_Boletin_EEVV_DANE_2024pr.pdf",
+    cover: "covers/portada_dane_boletin24pr.png",
+    categories: ["Boletines Estadísticos"],
+    type: "Documento",
+    topic: "Mortalidad",
+    year: "2025",
+    author: "DANE"
   },
   {
     title: "Radiografía del Sector Funerario en España - Panasef",
@@ -32,7 +52,7 @@ const documents = [
     author: "Panasef"
   },
   {
-    title: "Plan Estadístico Nacional 2023-2027 - DANE",
+    title: "Plan Estadístico Nacional - DANE 2023/2027",
     file: "docs/DANE_PNE_2023-2027.pdf",
     cover: "covers/portada_dane.png",
     categories: ["Normatividad Sectorial"],
@@ -42,7 +62,17 @@ const documents = [
     author: "DANE"
   },
   {
-    title: "Boletín técnico Estadísticas Vitales (EEVV) - DANE",
+    title: "Costumbre y hábitos funerarios - Fenalco",
+    file: "docs/CIEX_Estudio_HabitosFunerarios_Fenalco_2021.pdf",
+    cover: "covers/portada_fenalco (2).png",
+    categories: ["Artículos de Investigación"],
+    type: "Documento",
+    topic: "Ritos",
+    year: "2021",
+    author: "Fenalco"
+  },
+  {
+    title: "Boletín Estadísticas Vitales - DANE 2023/2024-I",
     file: "docs/CIEX_Boletin_EEVV_DANE_2024.pdf",
     cover: "covers/portada_dane_boletin.png",
     categories: ["Boletines Estadísticos"],
@@ -50,16 +80,6 @@ const documents = [
     topic: "Mortalidad",
     year: "2024",
     author: "DANE"
-  },
-  {
-    title: "Costumbre y hábitos funerarios - Fenalco",
-    file: "docs/CIEX_Estudio_HabitosFunerarios_Fenalco_2021.pdf",
-    cover: "covers/portada_fenalco.png",
-    categories: ["Artículos de Investigación"],
-    type: "Documento",
-    topic: "Ritos",
-    year: "2021",
-    author: "Fenalco"
   }
 ];
 
@@ -126,18 +146,32 @@ function renderDocuments() {
       <h2>${doc.title}</h2>
       <div class="tags">
         ${doc.categories.map(cat=>`<span class="tag" data-cat="${cat}">${cat}</span>`).join('')}
+        <span class="tag" data-topic="${doc.topic}">${doc.topic}</span>
+        <span class="tag" data-year="${doc.year}">${doc.year}</span>
       </div>
-      <a href="${doc.file}" target="_blank">📄 Ver Documento</a>
+      <div class="actions">
+        ${doc.file ? `<a href="${doc.file}" target="_blank">📄 Ver Documento</a>` : ``}
+        ${doc.link ? `<a href="${doc.link}" target="_blank" class="dashboard-link">🔗 Ver Dashboard</a>` : ``}
+      </div>
     `;
-    // Click en tags (taxonomía)
-    card.querySelectorAll('.tag').forEach(span=>{
-      span.addEventListener('click', e=>{
+
+    // Click en cada tag: cat → taxonomy, topic → tema, year → año
+    card.querySelectorAll('.tag').forEach(span => {
+      span.addEventListener('click', e => {
         e.stopPropagation();
-        currentTaxonomy = span.dataset.cat;
+        if (span.dataset.cat) {
+          currentTaxonomy = span.dataset.cat;
+        } else if (span.dataset.topic) {
+          selectedTopics.clear();
+          selectedTopics.add(span.dataset.topic);
+        } else if (span.dataset.year) {
+          selectedYear = span.dataset.year;
+        }
         renderDocuments();
       });
     });
-    list.appendChild(card);
+
+    document.getElementById('documentList').appendChild(card);
   });
 }
 

@@ -148,3 +148,29 @@ footer {
   .sidebar.open { left:0; }
   .document-section { padding:.5rem; }
 }
+.document-card .actions {
+  margin-top: .5rem;
+}
+.document-card .actions a {
+  display: inline-block;
+  margin-right: .5rem;
+  padding: .3rem .6rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: .85rem;
+}
+/* Colores específicos para tags de tema (verde) y año (rojo) */
+.tag[data-topic] {
+  background: #28a745; /* verde */
+}
+.tag[data-year] {
+  background: #dc3545; /* rojo */
+}
+/* .document-card .actions .dashboard-link {
+  background: #48a8d7;
+  color: #fff;
+  transition: background .2s;
+}
+.document-card .actions .dashboard-link:hover {
+  background: #133185; 
+}*//* Listas de Temas y Años */
