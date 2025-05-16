@@ -296,13 +296,13 @@ footer {
 
 /* Banner más grande */
 #topBanner {
-  flex: 0 0 105%;
+  flex: 0 0 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 1.5rem;
 }
 #topBanner img {
-  width: 105%;
+  width: 100%;
   max-width: none;
   max-height: 400px;   /* altura mayor */
   object-fit: cover;
