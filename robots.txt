@@ -1,0 +1,14 @@
+# Bloquea todos los bots de indexar ciertos directorios
+User-agent: *
+Disallow: /js/
+Disallow: /css/
+Disallow: /assets/
+Disallow: /analytics.js
+Disallow: /scripts/
+Disallow: /admin/
+Disallow: /private/
+
+# Permite el acceso a la página principal
+Allow: /index.html
+Allow: /
+
