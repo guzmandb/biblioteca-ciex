@@ -67,5 +67,19 @@
   </footer>
 
   <script src="script.js"></script>
+
+<!-- Google Analytics con IP Anónima -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4Z390CRL24"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-4Z390CRL24', {
+    'anonymize_ip': true,
+    'cookie_flags': 'SameSite=None;Secure'
+  });
+</script>
+
+
 </body>
 </html>
