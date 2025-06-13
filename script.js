@@ -1,6 +1,6 @@
 // 1. Taxonomía jerárquica
 const taxonomyData = {
-  "Artículos Académicos": ["Revista","Artículos de Investigación","Artículos de Opinión","Artículos de Revisión"],
+  "Artículos Académicos": ["Revista","Artículos de Investigación","Artículos de Opinión","Artículos de Revisión","Trabajo de Grado"],
   "Estadísticas": ["Estadísticas Vitales","Estadísticas de Mortalidad","Boletines Estadísticos"],
   "Investigaciones CIEX": ["Informes Técnicos","Investigación y Datos Primarios","Proyectos Especiales"],
   "Documentos de Referencia": ["Normatividad Sectorial","Estándares Internacionales","Lineamientos Metodológicos"],
@@ -80,6 +80,26 @@ const documents = [
     topic: "Mortalidad",
     year: "2024",
     author: "DANE"
+  },
+  {
+    title: "Capital intelectual para el Desarrollo Económico del Sector Funerario de Cúcuta",
+    file: "docs/CIEX_Articulo_GestionCapitalIntelectual_UFPS_2024.pdf",
+    cover: "covers/portada_gestion_conocimiento.png",
+    categories: ["Artículos Académicos","Universidades"],
+    type: "Documento",
+    topic: "Economía",
+    year: "2024",
+    author: "Liliana Bermeo-Majin"
+  },
+  {
+    title: "Evaluación del Control Interno en el Recaudo de Cartera en el Sector Funerario",
+    file: "docs/CIEX_TrabajoGrado_ControlRecaudoCartera_UCC_2022,pdf",
+    cover: "covers/portada_recaudo_cartera.png",
+    categories: ["Artículos Académicos","Trabajo de Grado"],
+    type: "Documento",
+    topic: "Cartera",
+    year: "2022",
+    author: "Castañeda Vargas et al"
   }
 ];
 
