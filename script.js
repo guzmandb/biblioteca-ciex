@@ -4,13 +4,53 @@ const taxonomyData = {
   "Estadísticas": ["Estadísticas Vitales","Estadísticas de Mortalidad","Boletines Estadísticos"],
   "Investigaciones CIEX": ["Informes Técnicos","Investigación y Datos Primarios","Proyectos Especiales"],
   "Documentos de Referencia": ["Normatividad Sectorial","Estándares Internacionales","Lineamientos Metodológicos"],
-  "Divulgación": ["Ponencias","Presentaciones Públicas","Videos y Webinars","Podcast"],
+  "Divulgación": ["Ponencias","Presentaciones","Videos","Webinars","Podcast","Metaverso"],
   "Alianzas y Convenios": ["Universidades","Entidades Gubernamentales","Asociaciones del sector"],
   "Memorias Institucionales": ["Actas de Comité CIEX","Historial de Reuniones","Premios y Reconocimientos"]
 };
 
 // 2. Documentos de ejemplo (con metadatos)
 const documents = [
+  {
+    title: "Metaverso CIEX",
+    link: "https://www.spatial.io/s/Webinar-CIEX-en-el-Metaverso-6808167d54495458f02595bf?share=4167120326229369913",
+    cover: "covers/portada_ciex_metaverso.png",
+    categories: ["Metaverso"],
+    type: "Metaverso",
+    topic: "Sectorial",
+    year: "2026",
+    author: "CIEX"
+  },
+  {
+    title: "Diagnóstico sectorial sobre percepción del servicio y oscilación de precios funerarios en Colombia",
+    file: "docs/CIEX_Diagnostico_Servicio_2026.pdf",
+    cover: "covers/portada_ciex_precios.png",
+    categories: ["Presentaciones"],
+    type: "Documento",
+    topic: "Sectorial",
+    year: "2026",
+    author: "CIEX"
+  },
+  {
+    title: "Democratizando los datos: El sector funerario conectado por la información",
+    file: "docs/CIEX_Democratizacion_Datos_Funebres_2025.pdf",
+    cover: "covers/portada_ciex_democratizando.png",
+    categories: ["Presentaciones"],
+    type: "Documento",
+    topic: "Empresarial",
+    year: "2025",
+    author: "CIEX"
+  },
+  {
+    title: "El DATO en la Industria Funeraria de Colombia",
+    file: "docs/CIEX_El_Dato_Industria_Funeraria_Colombia_2025.pdf",
+    cover: "covers/portada_ciex_dato_funerario.png",
+    categories: ["Presentaciones"],
+    type: "Documento",
+    topic: "Estadísticas",
+    year: "2025",
+    author: "CIEX"
+  },
   {
     title: "Dashboard CIEX",
     cover: "covers/portada_ciex_dashboard.png",
@@ -28,7 +68,7 @@ const documents = [
     categories: ["Informes Técnicos"],
     type: "Documento",
     topic: "Sectorial",
-    year: "2021",
+    year: "2024",
     author: "CIEX"
   },
   {
@@ -157,8 +197,9 @@ function renderDocuments() {
   filtered.forEach(doc => {
     const card = document.createElement('div');
     card.className = 'document-card';
+    const docUrl = doc.file || doc.link || '#';
     card.innerHTML = `
-      <img src="${doc.cover}" class="document-cover" alt="${doc.title}">
+      <a href="${docUrl}" target="_blank"><img src="${doc.cover}" class="document-cover" alt="${doc.title}"></a>
       <h2>${doc.title}</h2>
       <div class="tags">
         ${doc.categories.map(cat=>`<span class="tag" data-cat="${cat}">${cat}</span>`).join('')}
@@ -167,7 +208,7 @@ function renderDocuments() {
       </div>
       <div class="actions">
         ${doc.file ? `<a href="${doc.file}" target="_blank">📄 Ver Documento</a>` : ``}
-        ${doc.link ? `<a href="${doc.link}" target="_blank" class="dashboard-link">🔗 Ver Dashboard</a>` : ``}
+        ${doc.link ? `<a href="${doc.link}" target="_blank" class="dashboard-link">🔗 Ir a Link</a>` : ``}
       </div>
     `;
 
