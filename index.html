@@ -4,22 +4,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Biblioteca CIEX - Centro de Investigación Estadístico Exequial</title>
-  <meta name="description" content="Biblioteca digital del Centro de Investigación Estadístico Exequial (CIEX). Documentos, estadísticas, investigaciones y recursos del sector funerario en Colombia." />
+  <meta name="description" content="Biblioteca digital del Centro de Investigación Estadístico Exequial (CIEX). Accede a documentos, estadísticas de mortalidad, investigaciones del sector funerario, dashboards y recursos académicos de Colombia y Latinoamérica." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Biblioteca CIEX" />
-  <meta property="og:description" content="Documentos, estadísticas, investigaciones y recursos del sector funerario en Colombia." />
+  <meta property="og:title" content="Biblioteca CIEX - Centro de Investigación Estadístico Exequial" />
+  <meta property="og:description" content="Accede a documentos, estadísticas, investigaciones, dashboards y recursos académicos del sector funerario en Colombia." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="img/banner-ciex.png" />
+  <meta property="og:image" content="https://biblioteca-ciex.vercel.app/img/banner-ciex.png" />
+  <meta property="og:image:width" content="800" />
+  <meta property="og:image:height" content="400" />
   <meta property="og:url" content="https://biblioteca-ciex.vercel.app" />
+  <meta property="og:site_name" content="Biblioteca CIEX" />
+  <meta property="og:locale" content="es_CO" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Biblioteca CIEX - Centro de Investigación Estadístico Exequial" />
+  <meta name="twitter:description" content="Documentos, estadísticas, investigaciones y recursos del sector funerario en Colombia." />
+  <meta name="twitter:image" content="https://biblioteca-ciex.vercel.app/img/banner-ciex.png" />
 
   <!-- Preconnect -->
   <link rel="preconnect" href="https://www.googletagmanager.com" />
   <link rel="preconnect" href="https://biblioteca-ciex.goatcounter.com" />
 
   <link rel="canonical" href="https://biblioteca-ciex.vercel.app/" />
-  <link rel="icon" href="img/ciex-logo.png" type="image/png" />
+  <link rel="icon" href="img/ciex-logo.png" type="image/png" sizes="any" />
+  <link rel="apple-touch-icon" href="img/ciex-logo.png" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Datos estructurados JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Biblioteca CIEX",
+    "alternateName": "Centro de Investigación Estadístico Exequial",
+    "url": "https://biblioteca-ciex.vercel.app",
+    "description": "Biblioteca digital del CIEX con documentos, estadísticas de mortalidad, investigaciones del sector funerario, dashboards y recursos académicos.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CIEX - Centro de Investigación Estadístico Exequial",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://biblioteca-ciex.vercel.app/img/ciex-logo.png"
+      }
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://biblioteca-ciex.vercel.app/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 </head>
 <body>
   <header>
@@ -37,8 +74,7 @@
 
   <div class="container">
     <div id="sidebarOverlay"></div>
-    <aside class="sidebar">
-      <!-- PANEL DE FILTROS -->
+    <aside class="sidebar" data-nosnippet>
 
       <!-- Filtros -->
       <div class="filter-section">
@@ -72,6 +108,8 @@
     </aside>
 
     <main class="document-section">
+      <!-- Descripción visible para crawlers -->
+      <p class="seo-description">Biblioteca digital del CIEX: documentos, estadísticas de mortalidad, investigaciones del sector funerario, dashboards interactivos y recursos académicos de Colombia.</p>
       <!-- 1) Banner fijo -->
       <div id="topBanner">
         <a href="https://forms.gle/aKF8cXsa1bw8TrqUA" target="_blank" rel="noopener">
