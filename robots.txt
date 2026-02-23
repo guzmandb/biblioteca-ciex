@@ -6,5 +6,5 @@ Allow: /
 Disallow: /analytics.js
 Disallow: /*.bak$
 
-# Sitemap (opcional, añadir si se genera)
-# Sitemap: https://biblioteca-ciex.vercel.app/sitemap.xml
+# Sitemap
+Sitemap: https://biblioteca-ciex.vercel.app/sitemap.xml

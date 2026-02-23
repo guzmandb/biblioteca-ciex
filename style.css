@@ -369,8 +369,40 @@ a:focus-visible {
   border-radius: 3px;
 }
 
+/* ========== TABLET (portrait & small landscape) ========== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Sidebar overlay más ancho y cómodo en tablets */
+  .sidebar {
+    width: 300px;
+  }
+
+  /* Header: mostrar buscador inline (hay espacio) */
+  .search-wrapper { width: 40%; max-width: 280px; }
+  #searchToggle { display: none; }
+  #searchInput {
+    position: static;
+    transform: none;
+    width: 100%;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Cards más anchas para aprovechar el espacio */
+  .document-card { width: 280px; }
+  .document-cover { height: 170px; }
+
+  /* Banner proporcional */
+  #topBanner img {
+    max-height: 260px;
+    border-radius: 6px;
+  }
+
+  /* Más padding en la zona de documentos */
+  .document-section { padding: .75rem; }
+}
+
 /* ========== DESKTOP ========== */
-@media (min-width: 769px) {
+@media (min-width: 1024px) {
   #menuToggle { display: none; }
   .search-wrapper { width: 30%; max-width: 300px; }
   #searchToggle { display: none; }
