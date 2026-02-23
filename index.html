@@ -3,18 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Biblioteca CIEX</title>
+  <title>Biblioteca CIEX - Centro de Investigación Estadístico Exequial</title>
+  <meta name="description" content="Biblioteca digital del Centro de Investigación Estadístico Exequial (CIEX). Documentos, estadísticas, investigaciones y recursos del sector funerario en Colombia." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Biblioteca CIEX" />
+  <meta property="og:description" content="Documentos, estadísticas, investigaciones y recursos del sector funerario en Colombia." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="img/banner-ciex.png" />
+  <meta property="og:url" content="https://biblioteca-ciex.vercel.app" />
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://biblioteca-ciex.goatcounter.com" />
+
+  <link rel="canonical" href="https://biblioteca-ciex.vercel.app/" />
+  <link rel="icon" href="img/ciex-logo.png" type="image/png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <button id="menuToggle">☰</button>
     <a href="#" onclick="window.location.reload()"><img src="img/ciex-logo.png" alt="Centro de Investigación Estadístico Exequial - CIEX Logo" id="logo"></a>
-    <h1><a href="#" onclick="window.location.reload()" style="color: white;">Biblioteca CIEX</a></h1>
-    <input type="text" id="searchInput" placeholder="Buscar documentos...">
+    <h1><a href="#" onclick="window.location.reload()">Biblioteca CIEX</a></h1>
+    <div class="search-wrapper">
+      <button id="searchToggle" type="button" aria-label="Buscar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <input type="text" id="searchInput" placeholder="Buscar...">
+      <button id="searchClear" type="button" aria-label="Limpiar búsqueda">&times;</button>
+    </div>
   </header>
 
   <div class="container">
+    <div id="sidebarOverlay"></div>
     <aside class="sidebar">
       <!-- PANEL DE FILTROS -->
 
@@ -54,7 +76,8 @@
       <div id="topBanner">
         <a href="https://forms.gle/aKF8cXsa1bw8TrqUA" target="_blank" rel="noopener">
           <img src="img/banner-ciex.png"
-               alt="CIEX - Participa en nuestra Biblioteca llenando el formulario">
+               alt="CIEX - Participa en nuestra Biblioteca llenando el formulario"
+               width="800" height="400" fetchpriority="high">
         </a>
       </div>
       <!-- 2) Aquí solo se renderizan las tarjetas -->
@@ -63,22 +86,18 @@
   </div>
 
   <footer>
-    <p>&copy; 2025 CIEX - Biblioteca</p>
+    <p>&copy; 2026 CIEX - Biblioteca</p>
   </footer>
 
-  <script src="script.js"></script>
-<!-- Google Analytics -->
-  <script src="analytics.js"></script>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4Z390CRL24"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Botón ir arriba -->
+  <button id="scrollTopBtn" type="button" aria-label="Ir arriba">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
 
-  gtag('config', 'G-4Z390CRL24');
-</script>
-    <script data-goatcounter="https://biblioteca-ciex.goatcounter.com/count"
+  <script src="script.js" defer></script>
+  <!-- Analytics (solo en producción, manejado por analytics.js) -->
+  <script src="analytics.js" defer></script>
+  <script data-goatcounter="https://biblioteca-ciex.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
 
 

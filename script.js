@@ -12,9 +12,29 @@ const taxonomyData = {
 // 2. Documentos de ejemplo (con metadatos)
 const documents = [
   {
+    title: "CIEX - 2da Ed. Diagnóstico Sectorial sobre Percepción del Servicio y Oscilación de Precios Funerarios en Colombia",
+    file: "docs/CIEX_Segunda_Edicion.pdf",
+    cover: "covers/portada_ciex_segunda_edicion-1-2.jpg",
+    categories: ["Informes Técnicos", "Tarifas"],
+    type: "Documento",
+    topic: "Sectorial",
+    year: "2026",
+    author: "CIEX"
+  },
+  {
+    title: "Dashboard CIEX - 2026",
+    cover: "covers/portada_ciex_dashboard.jpg",
+    link: "https://app.powerbi.com/view?r=eyJrIjoiN2ExYmY2M2ItNzIxZC00MDcyLWFkOTAtYjc2ZTYxYzNhNGQ4IiwidCI6IjYwNjZiMGQ0LTRmYzgtNDMzNS05NjdiLWJmZDFmNzQ2Y2I0MSIsImMiOjR9",
+    categories: ["Investigación y Datos Primarios"],
+    type: "Dashboard",
+    topic: "Mortalidad",
+    year: "2026",
+    author: "CIEX"
+  },
+  {
     title: "Metaverso CIEX",
     link: "https://www.spatial.io/s/Webinar-CIEX-en-el-Metaverso-6808167d54495458f02595bf?share=4167120326229369913",
-    cover: "covers/portada_ciex_metaverso.png",
+    cover: "covers/portada_ciex_metaverso.jpg",
     categories: ["Metaverso"],
     type: "Metaverso",
     topic: "Sectorial",
@@ -24,7 +44,7 @@ const documents = [
   {
     title: "Diagnóstico sectorial sobre percepción del servicio y oscilación de precios funerarios en Colombia",
     file: "docs/CIEX_Diagnostico_Servicio_2026.pdf",
-    cover: "covers/portada_ciex_precios.png",
+    cover: "covers/portada_ciex_precios.jpg",
     categories: ["Presentaciones"],
     type: "Documento",
     topic: "Sectorial",
@@ -34,7 +54,7 @@ const documents = [
   {
     title: "Democratizando los datos: El sector funerario conectado por la información",
     file: "docs/CIEX_Democratizacion_Datos_Funebres_2025.pdf",
-    cover: "covers/portada_ciex_democratizando.png",
+    cover: "covers/portada_ciex_democratizando.jpg",
     categories: ["Presentaciones"],
     type: "Documento",
     topic: "Empresarial",
@@ -44,7 +64,7 @@ const documents = [
   {
     title: "El DATO en la Industria Funeraria de Colombia",
     file: "docs/CIEX_El_Dato_Industria_Funeraria_Colombia_2025.pdf",
-    cover: "covers/portada_ciex_dato_funerario.png",
+    cover: "covers/portada_ciex_dato_funerario.jpg",
     categories: ["Presentaciones"],
     type: "Documento",
     topic: "Estadísticas",
@@ -52,8 +72,8 @@ const documents = [
     author: "CIEX"
   },
   {
-    title: "Dashboard CIEX",
-    cover: "covers/portada_ciex_dashboard.png",
+    title: "Dashboard CIEX - 2024",
+    cover: "covers/portada_ciex_dashboard.jpg",
     link: "https://app.powerbi.com/view?r=eyJrIjoiNjcyOWIyODYtNGRlZi00ZTU2LWE3MGUtNjNmNTNjNDZhMDZmIiwidCI6IjYwNjZiMGQ0LTRmYzgtNDMzNS05NjdiLWJmZDFmNzQ2Y2I0MSIsImMiOjR9",
     categories: ["Investigación y Datos Primarios"],
     type: "Dashboard",
@@ -74,7 +94,7 @@ const documents = [
   {
     title: "Boletín Estadísticas Vitales - DANE 2024",
     file: "docs/CIEX_Boletin_EEVV_DANE_2024pr.pdf",
-    cover: "covers/portada_dane_boletin24pr.png",
+    cover: "covers/portada_dane_boletin24pr.jpg",
     categories: ["Boletines Estadísticos"],
     type: "Documento",
     topic: "Mortalidad",
@@ -84,7 +104,7 @@ const documents = [
   {
     title: "Radiografía del Sector Funerario en España - Panasef",
     file: "docs/Panasef_Radiografia_Sector_2023.pdf",
-    cover: "covers/portada_panasef.png",
+    cover: "covers/portada_panasef.jpg",
     categories: ["Revista"],
     type: "Documento",
     topic: "Sectorial",
@@ -94,7 +114,7 @@ const documents = [
   {
     title: "Plan Estadístico Nacional - DANE 2023/2027",
     file: "docs/DANE_PNE_2023-2027.pdf",
-    cover: "covers/portada_dane.png",
+    cover: "covers/portada_dane.jpg",
     categories: ["Normatividad Sectorial"],
     type: "Documento",
     topic: "Estadísticas",
@@ -104,7 +124,7 @@ const documents = [
   {
     title: "Costumbre y hábitos funerarios - Fenalco",
     file: "docs/CIEX_Estudio_HabitosFunerarios_Fenalco_2021.pdf",
-    cover: "covers/portada_fenalco (2).png",
+    cover: "covers/portada_fenalco.jpg",
     categories: ["Artículos de Investigación"],
     type: "Documento",
     topic: "Ritos",
@@ -114,7 +134,7 @@ const documents = [
   {
     title: "Boletín Estadísticas Vitales - DANE 2023/2024-I",
     file: "docs/CIEX_Boletin_EEVV_DANE_2024.pdf",
-    cover: "covers/portada_dane_boletin.png",
+    cover: "covers/portada_dane_boletin.jpg",
     categories: ["Boletines Estadísticos"],
     type: "Documento",
     topic: "Mortalidad",
@@ -124,7 +144,7 @@ const documents = [
   {
     title: "Capital intelectual para el Desarrollo Económico del Sector Funerario de Cúcuta",
     file: "docs/CIEX_Articulo_GestionCapitalIntelectual_UFPS_2024.pdf",
-    cover: "covers/portada_gestion_conocimiento.png",
+    cover: "covers/portada_gestion_conocimiento.jpg",
     categories: ["Artículos Académicos","Universidades"],
     type: "Documento",
     topic: "Economía",
@@ -133,8 +153,8 @@ const documents = [
   },
   {
     title: "Evaluación del Control Interno en el Recaudo de Cartera en el Sector Funerario",
-    file: "docs/CIEX_TrabajoGrado_ControlRecaudoCartera_UCC_2022,pdf",
-    cover: "covers/portada_recaudo_cartera.png",
+    file: "docs/CIEX_TrabajoGrado_ControlRecaudoCartera_UCC_2022.pdf",
+    cover: "covers/portada_recaudo_cartera.jpg",
     categories: ["Artículos Académicos","Trabajo de Grado"],
     type: "Documento",
     topic: "Cartera",
@@ -199,7 +219,7 @@ function renderDocuments() {
     card.className = 'document-card';
     const docUrl = doc.file || doc.link || '#';
     card.innerHTML = `
-      <a href="${docUrl}" target="_blank"><img src="${doc.cover}" class="document-cover" alt="${doc.title}"></a>
+      <a href="${docUrl}" target="_blank"><img src="${doc.cover}" class="document-cover" alt="${doc.title}" loading="lazy" width="240" height="140"></a>
       <h2>${doc.title}</h2>
       <div class="tags">
         ${doc.categories.map(cat=>`<span class="tag" data-cat="${cat}">${cat}</span>`).join('')}
@@ -207,8 +227,8 @@ function renderDocuments() {
         <span class="tag" data-year="${doc.year}">${doc.year}</span>
       </div>
       <div class="actions">
-        ${doc.file ? `<a href="${doc.file}" target="_blank">📄 Ver Documento</a>` : ``}
-        ${doc.link ? `<a href="${doc.link}" target="_blank" class="dashboard-link">🔗 Ir a Link</a>` : ``}
+        ${doc.file ? `<a href="${doc.file}" target="_blank" rel="noopener">📄 Ver Documento</a>` : ``}
+        ${doc.link ? `<a href="${doc.link}" target="_blank" rel="noopener" class="dashboard-link">🔗 Ir a Link</a>` : ``}
       </div>
     `;
 
@@ -430,10 +450,24 @@ function clearAllFilters() {
 }
 
 // Hook para hamburger mobile
+const sidebarEl = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+function openSidebar() {
+  sidebarEl.classList.add('open');
+  sidebarOverlay.classList.add('active');
+}
+function closeSidebar() {
+  sidebarEl.classList.remove('open');
+  sidebarOverlay.classList.remove('active');
+}
+
 document.getElementById('menuToggle')
-.addEventListener('click', ()=> {
-  document.querySelector('.sidebar').classList.toggle('open');
+.addEventListener('click', () => {
+  sidebarEl.classList.contains('open') ? closeSidebar() : openSidebar();
 });
+
+sidebarOverlay.addEventListener('click', closeSidebar);
 
 // Hook para el nuevo botón
 document.getElementById('clearFiltersBtn')
@@ -443,13 +477,12 @@ document.getElementById('clearFiltersBtn')
 });
 
 document.addEventListener('click', e => {
-  const sidebar = document.querySelector('.sidebar');
   const toggle  = document.getElementById('menuToggle');
-  // Si el sidebar está abierto y el click NO fue dentro de él ni en el botón
-  if (sidebar.classList.contains('open') &&
-      !sidebar.contains(e.target) &&
-      !toggle.contains(e.target)) {
-    sidebar.classList.remove('open');
+  if (sidebarEl.classList.contains('open') &&
+      !sidebarEl.contains(e.target) &&
+      !toggle.contains(e.target) &&
+      !sidebarOverlay.contains(e.target)) {
+    closeSidebar();
   }
 });
 
@@ -462,12 +495,78 @@ function normalizeText(str) {
 }
 
 // listener del buscador
-document.getElementById('searchInput').addEventListener('input', e => {
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+const searchToggle = document.getElementById('searchToggle');
+const searchWrapper = document.querySelector('.search-wrapper');
+
+searchInput.addEventListener('input', e => {
   searchTerm = normalizeText(e.target.value.trim());
   renderDocuments();
+});
+
+searchClear.addEventListener('click', () => {
+  searchInput.value = '';
+  searchTerm = '';
+  renderDocuments();
+  searchInput.focus();
+});
+
+// Lupa móvil: abre / cierra el campo de búsqueda
+searchToggle.addEventListener('click', () => {
+  const isOpen = searchWrapper.classList.toggle('open');
+  if (isOpen) {
+    setTimeout(() => searchInput.focus(), 50);
+  } else {
+    searchInput.value = '';
+    searchTerm = '';
+    renderDocuments();
+  }
+});
+
+// Cierra el buscador móvil al perder foco si está vacío
+searchInput.addEventListener('blur', () => {
+  setTimeout(() => {
+    if (!searchInput.value.trim()) {
+      searchWrapper.classList.remove('open');
+    }
+  }, 150);
 });
 
 // inicialización
 initFilters();
 renderTaxonomies();
 renderDocuments();
+
+// ========== Smart sticky header + Scroll to top ==========
+(() => {
+  const header = document.querySelector('header');
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  let lastScrollY = 0;
+  const SCROLL_THRESHOLD = 10; // píxeles mínimos de cambio para reaccionar
+
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+
+    // Header: ocultar al bajar, mostrar al subir
+    if (Math.abs(currentY - lastScrollY) > SCROLL_THRESHOLD) {
+      if (currentY > lastScrollY && currentY > 80) {
+        header.classList.add('header-hidden');
+      } else {
+        header.classList.remove('header-hidden');
+      }
+      lastScrollY = currentY;
+    }
+
+    // Botón scroll-to-top: visible después de 300px
+    if (currentY > 300) {
+      scrollTopBtn.classList.add('visible');
+    } else {
+      scrollTopBtn.classList.remove('visible');
+    }
+  }, { passive: true });
+
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();

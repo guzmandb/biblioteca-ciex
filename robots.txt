@@ -1,14 +1,10 @@
-# Bloquea todos los bots de indexar ciertos directorios
+# Biblioteca CIEX - robots.txt
 User-agent: *
-Disallow: /js/
-Disallow: /css/
-Disallow: /assets/
-Disallow: /analytics.js
-Disallow: /scripts/
-Disallow: /admin/
-Disallow: /private/
-
-# Permite el acceso a la página principal
-Allow: /index.html
 Allow: /
 
+# No indexar archivos de configuración/analytics
+Disallow: /analytics.js
+Disallow: /*.bak$
+
+# Sitemap (opcional, añadir si se genera)
+# Sitemap: https://biblioteca-ciex.vercel.app/sitemap.xml
