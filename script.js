@@ -12,6 +12,36 @@ const taxonomyData = {
 // 2. Documentos de ejemplo (con metadatos)
 const documents = [
   {
+    title: "Trailer - Docuserie: El Mapa del Adiós",
+    link: "https://www.youtube.com/watch?v=-_4lXTC5LwU",
+    cover: "covers/portada_trailer.jpg",
+    categories: ["Rituales Funerario","Docuserie","Trailer"],
+    type: "Video",
+    topic: "Cinema",
+    year: "2026",
+    author: "CIEX"
+  },
+  {
+    title: "Link de Interés - Docuserie: El Mapa del Adiós",
+    file: "docs/CIEX_Link_Interes_Docuserie.pdf",
+    cover: "covers/portada_link_interes.jpg",
+    categories: ["Activo de Memoria"],
+    type: "Boletín",
+    topic: "Ritual Funerario",
+    year: "2026",
+    author: ["CIEX"]
+  },
+  {
+    title: "Colombia's Funeral Sector - Thanos Magazine",
+    file: "docs/CIEX_Revista_Thanos_Sector_Funerario_Colombia.pdf",
+    cover: "covers/portada_ciex_thanos.jpg",
+    categories: ["Sector Funerario", "Colombia","Thanos","FIAT-IFTA"],
+    type: "Revista",
+    topic: "Sectorial",
+    year: "2026",
+    author: ["CIEX","Thanos Magazine","FIAT-IFTA"]
+  },
+  {
     title: "CIEX - 2da Ed. Diagnóstico Sectorial sobre Percepción del Servicio y Oscilación de Precios Funerarios en Colombia",
     file: "docs/CIEX_Segunda_Edicion.pdf",
     cover: "covers/portada_ciex_segunda_edicion-1-2.jpg",
@@ -220,7 +250,7 @@ function renderDocuments() {
     const docUrl = doc.file || doc.link || '#';
     card.innerHTML = `
       <a href="${docUrl}" target="_blank"><img src="${doc.cover}" class="document-cover" alt="${doc.title}" loading="lazy" width="240" height="140"></a>
-      <h2>${doc.title}</h2>
+      <h2><a href="${docUrl}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none; display: block;">${doc.title}</a></h2>
       <div class="tags">
         ${doc.categories.map(cat=>`<span class="tag" data-cat="${cat}">${cat}</span>`).join('')}
         <span class="tag" data-topic="${doc.topic}">${doc.topic}</span>
