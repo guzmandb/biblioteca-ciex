@@ -12,6 +12,16 @@ const taxonomyData = {
 // 2. Documentos de ejemplo (con metadatos)
 const documents = [
   {
+    title: "CIEX:Analítica de Datos y Transformación Digital para Comprender el Duelo en Colombia",
+    file: "docs/CIEX_Ponencia_SENA.pdf",
+    cover: "covers/portada_sena_duelo_inevitables.jpg",
+    categories: ["Duelo"],
+    type: "Ponencia",
+    topic: "Congreso Cartografía del Duelo",
+    year: "2026",
+    author: ["CIEX", "Julian Cruz", "Sofia Solorzano"]
+  },
+  {
     title: "Duelos Inevitables: Negación y sufrimiento prolongado",
     file: "docs/SENA_Ponencia_Duelos_Inevitable_Congreso_2026.pdf",
     cover: "covers/portada_sena_duelo_inevitables.jpg",
