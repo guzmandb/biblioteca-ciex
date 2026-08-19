@@ -203,6 +203,241 @@ const documents = [
   }
 ];
 
+// Visor interno de presentaciones exportadas como video.
+// Cada registro compatible usa: viewer: { kind: "video", sources: [...] }.
+const mediaViewer = document.getElementById('mediaViewer');
+const mediaViewerDialog = mediaViewer.querySelector('.media-viewer__dialog');
+const mediaViewerTitle = document.getElementById('mediaViewerTitle');
+const mediaViewerVideo = document.getElementById('mediaViewerVideo');
+const mediaViewerStatus = document.getElementById('mediaViewerStatus');
+const mediaViewerError = document.getElementById('mediaViewerError');
+const mediaViewerClose = document.getElementById('mediaViewerClose');
+const mediaViewerFullscreen = document.getElementById('mediaViewerFullscreen');
+const mediaViewerFallback = document.getElementById('mediaViewerFallback');
+let mediaViewerPreviousFocus = null;
+let failedViewerSources = 0;
+let mediaViewerLoadId = 0;
+
+function isVideoViewerDocument(doc) {
+  return doc.viewer && doc.viewer.kind === 'video';
+}
+
+function resolveViewerUrl(value) {
+  if (typeof value !== 'string' || !value.trim()) return '';
+
+  try {
+    const url = new URL(value, document.baseURI);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+  } catch (_) {
+    return '';
+  }
+}
+
+function getViewerSources(config) {
+  const candidates = [];
+
+  if (config.src) {
+    candidates.push({ src: config.src, type: config.type });
+  }
+  if (Array.isArray(config.sources)) {
+    candidates.push(...config.sources);
+  }
+
+  return candidates
+    .map(source => typeof source === 'string' ? { src: source } : source)
+    .filter(source => source && typeof source.src === 'string')
+    .map(source => ({
+      src: resolveViewerUrl(source.src),
+      type: typeof source.type === 'string' ? source.type : ''
+    }))
+    .filter(source => source.src);
+}
+
+function getViewerAspectRatio(value) {
+  const normalized = String(value || '16/9').trim().replace(':', '/');
+  const match = normalized.match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/);
+
+  if (!match) return { css: '16 / 9', number: 16 / 9 };
+
+  const width = Number(match[1]);
+  const height = Number(match[2]);
+  const ratio = width / height;
+
+  if (!Number.isFinite(ratio) || ratio < .25 || ratio > 4) {
+    return { css: '16 / 9', number: 16 / 9 };
+  }
+
+  return { css: `${width} / ${height}`, number: ratio };
+}
+
+function clearMediaViewerVideo() {
+  mediaViewerVideo.pause();
+  mediaViewerVideo.removeAttribute('poster');
+  mediaViewerVideo.removeAttribute('src');
+  mediaViewerVideo.replaceChildren();
+  mediaViewerVideo.load();
+  mediaViewerVideo.hidden = true;
+}
+
+function showMediaViewerError() {
+  if (mediaViewer.hidden) return;
+
+  mediaViewerStatus.hidden = true;
+  mediaViewerVideo.hidden = true;
+  mediaViewerError.hidden = false;
+  mediaViewerFallback.hidden = !mediaViewerFallback.hasAttribute('href');
+}
+
+function openMediaViewer(doc) {
+  if (!isVideoViewerDocument(doc)) return;
+
+  const config = doc.viewer;
+  const sources = getViewerSources(config);
+  const aspectRatio = getViewerAspectRatio(config.aspectRatio);
+  const loadId = ++mediaViewerLoadId;
+
+  mediaViewerPreviousFocus = document.activeElement;
+  mediaViewerTitle.textContent = doc.title;
+  mediaViewerDialog.style.setProperty('--viewer-aspect-ratio', aspectRatio.css);
+  mediaViewerDialog.style.setProperty('--viewer-aspect-ratio-number', aspectRatio.number);
+  mediaViewerError.hidden = true;
+  mediaViewerStatus.hidden = false;
+  mediaViewerFallback.hidden = true;
+  mediaViewerFallback.removeAttribute('href');
+  failedViewerSources = 0;
+  clearMediaViewerVideo();
+
+  mediaViewer.hidden = false;
+  mediaViewer.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('media-viewer-open');
+
+  if (!sources.length) {
+    showMediaViewerError();
+    mediaViewerClose.focus();
+    return;
+  }
+
+  const poster = resolveViewerUrl(config.poster || doc.cover);
+  if (poster) mediaViewerVideo.poster = poster;
+
+  sources.forEach(source => {
+    const sourceElement = document.createElement('source');
+    sourceElement.src = source.src;
+    if (source.type) sourceElement.type = source.type;
+    sourceElement.addEventListener('error', () => {
+      if (loadId !== mediaViewerLoadId) return;
+
+      failedViewerSources += 1;
+      if (failedViewerSources >= sources.length && mediaViewerVideo.readyState === 0) {
+        showMediaViewerError();
+      }
+    });
+    mediaViewerVideo.appendChild(sourceElement);
+  });
+
+  if (Array.isArray(config.captions)) {
+    config.captions.forEach(caption => {
+      const src = resolveViewerUrl(caption && caption.src);
+      if (!src || !caption.srclang || !caption.label) return;
+
+      const track = document.createElement('track');
+      track.kind = caption.kind || 'captions';
+      track.src = src;
+      track.srclang = caption.srclang;
+      track.label = caption.label;
+      track.default = Boolean(caption.default);
+      mediaViewerVideo.appendChild(track);
+    });
+  }
+
+  mediaViewerFallback.href = sources[0].src;
+  mediaViewerVideo.preload = config.preload === 'auto' ? 'auto' : 'metadata';
+  mediaViewerVideo.hidden = false;
+  mediaViewerVideo.load();
+  mediaViewerClose.focus();
+
+  if (config.autoplay === true) {
+    mediaViewerVideo.play().catch(() => {
+      // El navegador puede bloquear autoplay; los controles siguen disponibles.
+    });
+  }
+}
+
+function closeMediaViewer() {
+  if (mediaViewer.hidden) return;
+
+  mediaViewerLoadId += 1;
+
+  if (document.fullscreenElement === mediaViewerDialog && document.exitFullscreen) {
+    document.exitFullscreen().catch(() => {});
+  }
+
+  clearMediaViewerVideo();
+  mediaViewer.hidden = true;
+  mediaViewer.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('media-viewer-open');
+
+  if (mediaViewerPreviousFocus && typeof mediaViewerPreviousFocus.focus === 'function') {
+    mediaViewerPreviousFocus.focus();
+  }
+}
+
+async function toggleMediaViewerFullscreen() {
+  try {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else if (mediaViewerDialog.requestFullscreen) {
+      await mediaViewerDialog.requestFullscreen();
+    } else if (typeof mediaViewerVideo.webkitEnterFullscreen === 'function') {
+      mediaViewerVideo.webkitEnterFullscreen();
+    }
+  } catch (_) {
+    // Fullscreen puede estar restringido por el navegador o el dispositivo.
+  }
+}
+
+function trapMediaViewerFocus(event) {
+  if (event.key !== 'Tab') return;
+
+  const focusable = Array.from(mediaViewerDialog.querySelectorAll(
+    'button:not([disabled]), a[href]:not([hidden]), video[controls]'
+  )).filter(element => !element.hidden);
+
+  if (!focusable.length) return;
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
+mediaViewerVideo.addEventListener('loadedmetadata', () => {
+  mediaViewerStatus.hidden = true;
+  mediaViewerError.hidden = true;
+});
+mediaViewerVideo.addEventListener('canplay', () => {
+  mediaViewerStatus.hidden = true;
+});
+mediaViewerVideo.addEventListener('error', showMediaViewerError);
+mediaViewerClose.addEventListener('click', closeMediaViewer);
+mediaViewerFullscreen.addEventListener('click', toggleMediaViewerFullscreen);
+mediaViewer.querySelector('[data-viewer-close]').addEventListener('click', closeMediaViewer);
+mediaViewer.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeMediaViewer();
+  trapMediaViewerFocus(event);
+});
+document.addEventListener('fullscreenchange', () => {
+  mediaViewerFullscreen.textContent = document.fullscreenElement
+    ? 'Salir de pantalla completa'
+    : 'Pantalla completa';
+});
+
 // Estado de filtros
 let currentTaxonomy = "";
 let selectedTypes = new Set();
@@ -257,20 +492,35 @@ function renderDocuments() {
   filtered.forEach(doc => {
     const card = document.createElement('div');
     card.className = 'document-card';
+    const hasInlineViewer = isVideoViewerDocument(doc);
     const docUrl = doc.file || doc.link || '#';
+    const viewerActionLabel = doc.viewer && doc.viewer.label
+      ? doc.viewer.label
+      : (doc.type === 'Video' ? 'Ver video' : 'Ver presentación');
+    const coverContent = hasInlineViewer
+      ? `<button type="button" class="document-cover-trigger" data-viewer-open aria-label="${viewerActionLabel}: ${doc.title}"><img src="${doc.cover}" class="document-cover" alt="${doc.title}" loading="lazy" width="240" height="140"></button>`
+      : `<a href="${docUrl}" target="_blank" rel="noopener"><img src="${doc.cover}" class="document-cover" alt="${doc.title}" loading="lazy" width="240" height="140"></a>`;
+    const titleContent = hasInlineViewer
+      ? `<button type="button" class="document-title-trigger" data-viewer-open>${doc.title}</button>`
+      : `<a href="${docUrl}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none; display: block;">${doc.title}</a>`;
     card.innerHTML = `
-      <a href="${docUrl}" target="_blank"><img src="${doc.cover}" class="document-cover" alt="${doc.title}" loading="lazy" width="240" height="140"></a>
-      <h2><a href="${docUrl}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none; display: block;">${doc.title}</a></h2>
+      ${coverContent}
+      <h2>${titleContent}</h2>
       <div class="tags">
         ${doc.categories.map(cat=>`<span class="tag" data-cat="${cat}">${cat}</span>`).join('')}
         <span class="tag" data-topic="${doc.topic}">${doc.topic}</span>
         <span class="tag" data-year="${doc.year}">${doc.year}</span>
       </div>
       <div class="actions">
+        ${hasInlineViewer ? `<button type="button" data-viewer-open>&#9654; ${viewerActionLabel}</button>` : ``}
         ${doc.file ? `<a href="${doc.file}" target="_blank" rel="noopener">📄 Ver Documento</a>` : ``}
         ${doc.link ? `<a href="${doc.link}" target="_blank" rel="noopener" class="dashboard-link">🔗 Ir a Link</a>` : ``}
       </div>
     `;
+
+    card.querySelectorAll('[data-viewer-open]').forEach(button => {
+      button.addEventListener('click', () => openMediaViewer(doc));
+    });
 
     // Click en cada tag: cat → taxonomy, topic → tema, year → año
     card.querySelectorAll('.tag').forEach(span => {

@@ -123,6 +123,44 @@
     </main>
   </div>
 
+  <!-- Visor interno para presentaciones exportadas como video -->
+  <div id="mediaViewer" class="media-viewer" hidden aria-hidden="true">
+    <div class="media-viewer__backdrop" data-viewer-close aria-hidden="true"></div>
+    <section class="media-viewer__dialog"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="mediaViewerTitle"
+             aria-describedby="mediaViewerDescription">
+      <div class="media-viewer__topbar">
+        <h2 id="mediaViewerTitle">Presentación</h2>
+        <button id="mediaViewerClose" class="media-viewer__close" type="button" aria-label="Cerrar visor">&times;</button>
+      </div>
+
+      <p id="mediaViewerDescription" class="visually-hidden">
+        Reproductor de la presentación. Usa los controles del video o activa la pantalla completa.
+      </p>
+
+      <div id="mediaViewerStage" class="media-viewer__stage">
+        <video id="mediaViewerVideo"
+               controls
+               playsinline
+               preload="metadata"
+               controlslist="nodownload"
+               hidden></video>
+        <div id="mediaViewerStatus" class="media-viewer__status" role="status">Cargando presentación…</div>
+        <div id="mediaViewerError" class="media-viewer__error" role="alert" hidden>
+          <strong>No fue posible reproducir esta presentación.</strong>
+          <span>Comprueba la conexión o intenta abrir el video en una pestaña nueva.</span>
+        </div>
+      </div>
+
+      <div class="media-viewer__actions">
+        <button id="mediaViewerFullscreen" type="button">Pantalla completa</button>
+        <a id="mediaViewerFallback" href="#" target="_blank" rel="noopener" hidden>Abrir video</a>
+      </div>
+    </section>
+  </div>
+
   <footer>
     <p>&copy; 2026 CIEX - Biblioteca</p>
   </footer>

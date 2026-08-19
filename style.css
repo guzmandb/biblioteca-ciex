@@ -263,6 +263,28 @@ h1 a { color: white; text-decoration: none; }
 .document-cover {
   width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: .75rem;
 }
+.document-cover-trigger,
+.document-title-trigger {
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+.document-cover-trigger {
+  display: block;
+  width: 100%;
+}
+.document-cover-trigger .document-cover {
+  display: block;
+}
+.document-title-trigger {
+  display: block;
+  width: 100%;
+  line-height: inherit;
+}
 .tags { margin: .5rem 0; }
 .tag {
   background: #0066cc; color: white; padding: .2rem .5rem; border-radius: 5px;
@@ -273,13 +295,175 @@ h1 a { color: white; text-decoration: none; }
 .tag[data-year] { background: #dc3545; }
 
 .document-card .actions { margin-top: .5rem; }
-.document-card .actions a {
+.document-card .actions a,
+.document-card .actions button {
   display: inline-block;
   margin-right: .5rem;
   padding: .3rem .6rem;
   border-radius: 4px;
   text-decoration: none;
   font-size: .85rem;
+}
+.document-card .actions button {
+  appearance: none;
+  background: #e8f0fb;
+  border: 1px solid #c7d9f1;
+  color: #004080;
+  cursor: pointer;
+  font-family: inherit;
+}
+.document-card .actions button:hover {
+  background: #dbe8f8;
+}
+
+/* ========== VISOR DE PRESENTACIONES ========== */
+body.media-viewer-open {
+  overflow: hidden;
+}
+.media-viewer[hidden] {
+  display: none;
+}
+.media-viewer {
+  align-items: center;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 2000;
+}
+.media-viewer__backdrop {
+  background: rgba(0, 20, 40, .82);
+  inset: 0;
+  position: absolute;
+}
+.media-viewer__dialog {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, .4);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  overflow: hidden;
+  position: relative;
+  width: min(1100px, 100%);
+}
+.media-viewer__dialog:fullscreen {
+  border-radius: 0;
+  height: 100%;
+  max-height: none;
+  width: 100%;
+}
+.media-viewer__topbar {
+  align-items: center;
+  background: #004080;
+  color: #fff;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  min-height: 3.5rem;
+  padding: .75rem 1rem;
+}
+.media-viewer__topbar h2 {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+.media-viewer__close {
+  align-items: center;
+  appearance: none;
+  background: rgba(255, 255, 255, .14);
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 2.25rem;
+  font-size: 1.6rem;
+  height: 2.25rem;
+  justify-content: center;
+  line-height: 1;
+  width: 2.25rem;
+}
+.media-viewer__close:hover {
+  background: rgba(255, 255, 255, .24);
+}
+.media-viewer__stage {
+  align-items: center;
+  aspect-ratio: var(--viewer-aspect-ratio, 16 / 9);
+  background: #05080c;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-height: calc(100vh - 9rem);
+  max-height: calc(100dvh - 9rem);
+  position: relative;
+  width: min(100%, calc((100vh - 9rem) * var(--viewer-aspect-ratio-number, 1.7778)));
+  width: min(100%, calc((100dvh - 9rem) * var(--viewer-aspect-ratio-number, 1.7778)));
+}
+.media-viewer__stage video {
+  background: #05080c;
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+.media-viewer__status,
+.media-viewer__error {
+  color: #fff;
+  left: 50%;
+  max-width: min(30rem, 90%);
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.media-viewer__error {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  line-height: 1.4;
+}
+.media-viewer__error[hidden] {
+  display: none;
+}
+.media-viewer__error span {
+  color: #ced7e1;
+  font-size: .9rem;
+}
+.media-viewer__actions {
+  align-items: center;
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+  min-height: 3.5rem;
+  padding: .65rem 1rem;
+}
+.media-viewer__actions button,
+.media-viewer__actions a {
+  appearance: none;
+  background: #0066cc;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: .9rem;
+  padding: .55rem .8rem;
+  text-decoration: none;
+}
+.media-viewer__actions button:hover,
+.media-viewer__actions a:hover {
+  background: #0055aa;
+}
+.visually-hidden {
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 /* ========== BANNER ========== */
@@ -399,6 +583,30 @@ a:focus-visible {
 
   /* Más padding en la zona de documentos */
   .document-section { padding: .75rem; }
+}
+
+@media (max-width: 600px) {
+  .media-viewer {
+    padding: 0;
+  }
+  .media-viewer__dialog {
+    border-radius: 0;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    width: 100%;
+  }
+  .media-viewer__stage {
+    aspect-ratio: auto;
+    flex: 1 1 auto;
+    margin: 0;
+    max-height: none;
+    min-height: 0;
+    width: 100%;
+  }
+  .media-viewer__actions {
+    justify-content: center;
+  }
 }
 
 /* ========== DESKTOP ========== */
